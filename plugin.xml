@@ -28,6 +28,7 @@
     <source-file src="src/ios/Carrier.m"/>
 
     <framework src="CoreTelephony.framework"/>
+    <framework src="CoreLocation.framework"/>
   </platform>
 
   <!-- android -->
