@@ -2,8 +2,8 @@ var carrier = {
   getCarrierInfo: function (successCallback, errorCallback) {
     cordova.exec(successCallback, errorCallback, 'Carrier', 'getCarrierInfo', []);
   },
-  geocodeCountryCode: function (lat, lng, successCallback, errorCallback){
-    cordova.exec(successCallback, errorCallback, 'Carrier', 'geocodeCountryCode', [lat, lng]);
+  geocodeCountryCode: function (params, successCallback, errorCallback){
+    cordova.exec(successCallback, errorCallback, 'Carrier', 'geocodeCountryCode', params);
   }
 }
 
