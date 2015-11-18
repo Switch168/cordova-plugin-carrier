@@ -9,7 +9,7 @@ cordova-plugin-carrier is a cordova plugin to get the device's carrier name, mcc
 The plugin works on both Android and iOS platforms. To install it, go to your project dir and run this command:
 
 ```
-cordova plugin add br.com.dtmtec.plugins.carrier
+cordova plugin add br.com.bringg.plugins.carrier
 ```
 
 ## Usage ##
