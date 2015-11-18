@@ -11,12 +11,35 @@ import android.content.Context;
 import android.telephony.TelephonyManager;
 
 public class Carrier extends CordovaPlugin {
+  
+  private static final String ACTION_GET_CARRIER_INFO = "getCarrierInfo";
+  private static final String ACTION_GEOCODE = "geocodeCountryCode";
 
   @Override
   public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-    if (action.equals("getCarrierInfo")) {
-      Context context = this.cordova.getActivity().getApplicationContext();
-
+    Context context = this.cordova.getActivity().getApplicationContext();
+    JSONObject result = null;
+    
+    if (ACTION_GET_CARRIER_INFO.equals(action)) {
+      result = getCarrierInfo(context);
+    } else if (ACTION_GEOCODE.equals(action) && args.length >= 2){
+      String cc = getCountryCodeFromLatLng(context, args.optDouble(0), args.optDouble(1));
+      result = new JSONObject();
+      result.put("countryCode", cc);
+      result.put("origin", "geocode");
+    } else {
+      return false;
+    }
+    
+    if (result != null){
+      callbackContext.success(result);
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  private static JSONObject getCarrierInfo(Context context){
       TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
       String carrierName = manager.getSimOperatorName(); // VIVO
@@ -53,12 +76,15 @@ public class Carrier extends CordovaPlugin {
           result.put("countryCode", simCountryCode);
         }
       }
-
-      callbackContext.success(result);
-
-      return true;
-    } else {
-      return false;
-    }
+      
+      return result;
+  }
+  
+  private static String getCountryCodeFromLatLng(Context context, double lat, double lng) throws IOException{
+    Geocoder geocoder = new Geocoder(context);
+    List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+    if (addresses.isEmpty())
+        return null;
+    return addresses.get(0).getCountryCode() != null ? addresses.get(0).getCountryCode().toLowerCase() : null;
   }
 }
