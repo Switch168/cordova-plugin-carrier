@@ -10,6 +10,12 @@ import org.json.JSONException;
 import android.content.Context;
 import android.telephony.TelephonyManager;
 
+import android.location.Address;
+import android.location.Geocoder;
+
+import java.io.IOException;
+import java.util.List;
+
 public class Carrier extends CordovaPlugin {
   
   private static final String ACTION_GET_CARRIER_INFO = "getCarrierInfo";
