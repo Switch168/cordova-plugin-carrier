@@ -32,7 +32,7 @@ public class Carrier extends CordovaPlugin {
       String cc = getCountryCodeFromLatLng(context, args.optDouble(0), args.optDouble(1));
       result = new JSONObject();
       result.put("countryCode", cc);
-      result.put("origin", "geocode");
+      result.put("countryCodeOrigin", "geocode");
     } else {
       return false;
     }
