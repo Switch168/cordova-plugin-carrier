@@ -46,13 +46,11 @@ public class Carrier extends CordovaPlugin {
       
       if (origin != null){
         result.put("countryCodeOrigin", origin);
-        switch (origin) {
-          case "network" : 
-            result.put("countryCode", networkCountryCode);
-            break;
-          case "sim" : 
-            result.put("countryCode", simCountryCode);
-            break;
+        if ("network".equals(origin)) {
+          result.put("countryCode", networkCountryCode);
+        }
+        else if ("sim".equals(origin)){
+          result.put("countryCode", simCountryCode);
         }
       }
 
