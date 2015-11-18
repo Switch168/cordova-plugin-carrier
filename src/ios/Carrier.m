@@ -14,8 +14,8 @@
    NSString *carrierNameResult    = [carrier carrierName];
    NSString *carrierCodeResult    = [carrier mobileCountryCode];
    NSString *carrierNetworkResult = [carrier mobileNetworkCode];
-   NSString *countryCodeResult = [carrier isoCountryCode];
-   NSString *countryCodeOrigin = @"carrier";
+   __block NSString *countryCodeResult = [carrier isoCountryCode];
+   __block NSString *countryCodeOrigin = @"carrier";
 
    if (!carrierNameResult)    carrierNameResult    = @"";
    if (!carrierCodeResult)    carrierCodeResult    = @"";
