@@ -23,7 +23,7 @@
 
    NSDictionary *carrierData = [NSDictionary dictionaryWithObjectsAndKeys:
    carrierNameResult,@"carrierName",
-   carrierCountryResult,@"countryCode",
+   carrierCountryResult,@"simCountryCode",
    carrierCodeResult,@"mcc",
    carrierNetworkResult,@"mnc",
    nil];
