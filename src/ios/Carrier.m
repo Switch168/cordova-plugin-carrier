@@ -46,7 +46,7 @@
                   countryCodeResult = countryCode;
                }
             }
-         }
+         }];
       }
    }
 
@@ -56,7 +56,6 @@
    carrierNetworkResult,@"mnc",
    countryCodeResult,@"countryCode",
    countryCodeOrigin,@"countryCodeOrigin",
-   
    nil];
 
    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:carrierData];
