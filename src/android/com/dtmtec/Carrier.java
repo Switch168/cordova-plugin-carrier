@@ -45,6 +45,7 @@ public class Carrier extends CordovaPlugin {
       result.put("mnc", mnc);
       
       if (origin != null){
+        result.put("countryCodeOrigin", origin);
         switch (origin) {
           case "network" : 
             result.put("countryCode", networkCountryCode);
