@@ -28,7 +28,7 @@ public class Carrier extends CordovaPlugin {
     
     if (ACTION_GET_CARRIER_INFO.equals(action)) {
       result = getCarrierInfo(context);
-    } else if (ACTION_GEOCODE.equals(action) && args.length >= 2){
+    } else if (ACTION_GEOCODE.equals(action) && args.length() >= 2){
       String cc = getCountryCodeFromLatLng(context, args.optDouble(0), args.optDouble(1));
       result = new JSONObject();
       result.put("countryCode", cc);
