@@ -22,7 +22,7 @@ public class Carrier extends CordovaPlugin {
   private static final String ACTION_GEOCODE = "geocodeCountryCode";
 
   @Override
-  public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+  public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException, IOException {
     Context context = this.cordova.getActivity().getApplicationContext();
     JSONObject result = null;
     
