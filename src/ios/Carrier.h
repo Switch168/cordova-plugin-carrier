@@ -2,6 +2,7 @@
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <CoreLocation/CLGeocoder.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface Carrier : CDVPlugin
 
