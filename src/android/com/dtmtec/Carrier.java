@@ -45,7 +45,7 @@ public class Carrier extends CordovaPlugin {
     }
   }
   
-  private static JSONObject getCarrierInfo(Context context){
+  private static JSONObject getCarrierInfo(Context context) throws JSONException {
       TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
       String carrierName = manager.getSimOperatorName(); // VIVO
