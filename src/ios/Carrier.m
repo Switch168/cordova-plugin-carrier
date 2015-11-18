@@ -12,20 +12,51 @@
    CTCarrier *carrier = [netinfo subscriberCellularProvider];
 
    NSString *carrierNameResult    = [carrier carrierName];
-   NSString *carrierCountryResult = [carrier isoCountryCode];
    NSString *carrierCodeResult    = [carrier mobileCountryCode];
    NSString *carrierNetworkResult = [carrier mobileNetworkCode];
+   NSString *countryCodeResult = [carrier isoCountryCode];
+   NSString *countryCodeOrigin = @"carrier";
 
    if (!carrierNameResult)    carrierNameResult    = @"";
-   if (!carrierCountryResult) carrierCountryResult = @"";
    if (!carrierCodeResult)    carrierCodeResult    = @"";
    if (!carrierNetworkResult) carrierNetworkResult = @"";
 
+   if (!countryCodeResult)
+   {
+      countryCodeResult = @"";
+      CLLocationManager *locationManager = [[CLLocationManager alloc] init];
+      
+      if ([locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
+         [locationManager requestAlwaysAuthorization];
+         locationManager.pausesLocationUpdatesAutomatically = YES;
+         
+         locationManager.distanceFilter = kCLDistanceFilterNone;
+         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+         [locationManager startUpdatingLocation];
+         [locationManager stopUpdatingLocation];
+         
+         CLGeocoder *reverseGeocoder = [[CLGeocoder alloc] init];
+         [reverseGeocoder reverseGeocodeLocation:locationManager.location completionHandler:^(NSArray *placemarks, NSError *error)
+         {
+            if(!error) {
+               CLPlacemark *pm = [placemarks objectAtIndex:0];
+               NSString *countryCode = pm.ISOcountryCode;
+               if (countryCode) {
+                  countryCodeOrigin = @"geocode";
+                  countryCodeResult = countryCode;
+               }
+            }
+         }
+      }
+   }
+
    NSDictionary *carrierData = [NSDictionary dictionaryWithObjectsAndKeys:
    carrierNameResult,@"carrierName",
-   carrierCountryResult,@"simCountryCode",
    carrierCodeResult,@"mcc",
    carrierNetworkResult,@"mnc",
+   countryCodeResult,@"countryCode",
+   countryCodeOrigin,@"countryCodeOrigin",
+   
    nil];
 
    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:carrierData];
