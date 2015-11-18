@@ -27,7 +27,14 @@ public class Carrier extends CordovaPlugin {
       String simOperator = manager.getSimOperator(); // 72411
       String mcc = simOperator.substring(0, Math.min(simOperator.length(), 3)); // 724
       String mnc = simOperator.substring(Math.max(simOperator.length() - 2, 0)); // 11
-
+      
+      String origin = null;
+      if (networkCountryCode != null){
+        origin = "network";
+      } else if (simCountryCode != null){
+        origin = "sim";
+      }
+      
       JSONObject result = new JSONObject();
 
       result.put("carrierName", carrierName);
@@ -36,6 +43,17 @@ public class Carrier extends CordovaPlugin {
       result.put("networkCountryCode", networkCountryCode);
       result.put("mcc", mcc);
       result.put("mnc", mnc);
+      
+      if (origin != null){
+        switch (origin) {
+          case "network" : 
+            result.put("countryCode", networkCountryCode);
+            break;
+          case "sim" : 
+            result.put("countryCode", simCountryCode);
+            break;
+        }
+      }
 
       callbackContext.success(result);
 
