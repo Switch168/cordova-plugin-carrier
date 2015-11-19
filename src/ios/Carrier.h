@@ -7,5 +7,5 @@
 @interface Carrier : CDVPlugin
 
 - (void)getCarrierInfo:(CDVInvokedUrlCommand*)command;
-- (void)geocodeCountryCode:(CDVInvokedUrlCommand*)command andLat:(double)lat andLng:(double)lng;
+- (void)geocodeCountryCode:(CDVInvokedUrlCommand*)command andParams:(NSArray *)paramList;
 @end
