@@ -14,46 +14,56 @@
    NSString *carrierNameResult    = [carrier carrierName];
    NSString *carrierCodeResult    = [carrier mobileCountryCode];
    NSString *carrierNetworkResult = [carrier mobileNetworkCode];
-   __block NSString *countryCodeResult = [carrier isoCountryCode];
-   __block NSString *countryCodeOrigin = @"carrier";
+   NSString *countryCodeResult = [carrier isoCountryCode];
+   NSString *countryCodeOrigin = @"carrier";
 
    if (!carrierNameResult)    carrierNameResult    = @"";
    if (!carrierCodeResult)    carrierCodeResult    = @"";
    if (!carrierNetworkResult) carrierNetworkResult = @"";
-
-   if (!countryCodeResult)
-   {
-      countryCodeResult = @"";
-      CLLocationManager *locationManager = [[CLLocationManager alloc] init];
-      
-      if ([locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
-         [locationManager requestAlwaysAuthorization];
-         locationManager.pausesLocationUpdatesAutomatically = YES;
-         
-         locationManager.distanceFilter = kCLDistanceFilterNone;
-         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-         [locationManager startUpdatingLocation];
-         [locationManager stopUpdatingLocation];
-         
-         CLGeocoder *reverseGeocoder = [[CLGeocoder alloc] init];
-         [reverseGeocoder reverseGeocodeLocation:locationManager.location completionHandler:^(NSArray *placemarks, NSError *error)
-         {
-            if(!error) {
-               CLPlacemark *pm = [placemarks objectAtIndex:0];
-               NSString *countryCode = pm.ISOcountryCode;
-               if (countryCode) {
-                  countryCodeOrigin = @"geocode";
-                  countryCodeResult = countryCode;
-               }
-            }
-         }];
-      }
-   }
+   if (!countryCodeResult)    countryCodeResult = @"";
+  
 
    NSDictionary *carrierData = [NSDictionary dictionaryWithObjectsAndKeys:
    carrierNameResult,@"carrierName",
    carrierCodeResult,@"mcc",
    carrierNetworkResult,@"mnc",
+   countryCodeResult,@"countryCode",
+   countryCodeOrigin,@"countryCodeOrigin",
+   nil];
+
+   CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:carrierData];
+
+  [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)geocodeCountryCode:(CDVInvokedUrlCommand*)command andParams:(NSArray *)paramList
+{
+   if (!paramList || paramList.count == 0) {return;}
+   
+   __block NSString *countryCodeResult = @"";
+   __block NSString *countryCodeOrigin = @"";
+   
+   NSNumber *latn = [paramList objectAtIndex:0];
+   NSNumber *lngn = [paramList objectAtIndex:1];
+   
+   if (!latn || ![latn isKindOfClass:[NSNumber class]] || !lngn || ![lngn isKindOfClass:[NSNumber class]]) { return; }
+   
+   CLLocation *loc = [[CLLocation alloc] initWithLatitude:latn.doubleValue longitude:lngn.doubleValue];
+   
+   CLGeocoder *reverseGeocoder = [[CLGeocoder alloc] init];
+   [reverseGeocoder reverseGeocodeLocation:loc completionHandler:^(NSArray *placemarks, NSError *error)
+   {
+      if(!error) {
+         CLPlacemark *pm = [placemarks objectAtIndex:0];
+         NSString *countryCode = pm.ISOcountryCode;
+         if (countryCode) {
+            countryCodeOrigin = @"geocode";
+            countryCodeResult = countryCode;
+         }
+      }
+   }];
+   
+   NSDictionary *carrierData = [NSDictionary dictionaryWithObjectsAndKeys:
    countryCodeResult,@"countryCode",
    countryCodeOrigin,@"countryCodeOrigin",
    nil];
