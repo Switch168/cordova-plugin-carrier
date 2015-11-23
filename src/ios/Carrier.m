@@ -36,8 +36,9 @@
   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-- (void)geocodeCountryCode:(CDVInvokedUrlCommand*)command andParams:(NSArray *)paramList
+- (void)geocodeCountryCode:(CDVInvokedUrlCommand*)command
 {
+   NSArray *paramList = [command argumentAtIndex:0];
    if (!paramList || paramList.count == 0) {return;}
    
    __block NSString *countryCodeResult = @"";
@@ -61,16 +62,15 @@
             countryCodeResult = countryCode;
          }
       }
+       
+       NSDictionary *carrierData = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    countryCodeResult,@"countryCode",
+                                    countryCodeOrigin,@"countryCodeOrigin",
+                                    nil];
+       
+       CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:carrierData];
+       [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
    }];
-   
-   NSDictionary *carrierData = [NSDictionary dictionaryWithObjectsAndKeys:
-   countryCodeResult,@"countryCode",
-   countryCodeOrigin,@"countryCodeOrigin",
-   nil];
-
-   CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:carrierData];
-
-  [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 @end
