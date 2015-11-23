@@ -38,7 +38,7 @@
 
 - (void)geocodeCountryCode:(CDVInvokedUrlCommand*)command
 {
-   NSArray *paramList = [command argumentAtIndex:0];
+   NSArray *paramList = [command arguments];
    if (!paramList || paramList.count == 0) {return;}
    
    __block NSString *countryCodeResult = @"";
