@@ -39,7 +39,12 @@
 - (void)geocodeCountryCode:(CDVInvokedUrlCommand*)command
 {
    NSArray *paramList = [command arguments];
-   if (!paramList || paramList.count == 0) {return;}
+   if(![paramList isKindOfClass:[NSArray class]])
+   {
+      paramList = command.arguments;
+   }
+   
+   if (![paramList isKindOfClass:[NSArray class]] || !paramList || paramList.count == 0) {return;}
    
    __block NSString *countryCodeResult = @"";
    __block NSString *countryCodeOrigin = @"";
