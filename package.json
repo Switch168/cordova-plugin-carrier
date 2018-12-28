@@ -1,0 +1,29 @@
+{
+  "name": "cordova-plugin-carrier",
+  "version": "1.0.0",
+  "description": "Cordova Plugin Carrier",
+  "cordova": {
+    "id": "cordova-plugin-carrier",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Switch168/cordova-plugin-carrier.git"
+  },
+  "keywords": [
+    "cordova",
+    "carrier",
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "author": "Switch168",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/Switch168/cordova-plugin-carrier/issues"
+  },
+  "homepage": "https://github.com/Switch168/cordova-plugin-carrier#readme"
+}
